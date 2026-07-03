@@ -1,0 +1,88 @@
+---
+title: "Dev Forge Asset CDN: Host Images for Open-Source Projects"
+sidebarTitle: "Introduction"
+description: "Dev Forge is a GitHub-hosted CDN asset repository delivering logos, screenshots, icons, and GIFs for open-source tools via jsDelivr with versioned, immutable URLs."
+---
+
+Dev Forge CDN is a dedicated, GitHub-hosted static asset repository — [`tutosrive/images-projects-srm-trg`](https://github.com/tutosrive/images-projects-srm-trg) — that stores every logo, screenshot, icon, SVG, and GIF used across the Dev Forge family of open-source developer tools. Instead of scattering images across individual project repositories or paying for external hosting, all visual assets live in one place and are delivered globally through [jsDelivr](https://www.jsdelivr.com/), a free, production-grade CDN that serves files directly from any public GitHub repository. The result is a single source of truth for assets, permanent URLs you can embed in READMEs and docs today, and zero infrastructure to maintain.
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Embed your first CDN asset in under 60 seconds.
+  </Card>
+  <Card title="CDN Usage" icon="link" href="/cdn-usage">
+    URL patterns, versioning strategies, and cache behaviour.
+  </Card>
+  <Card title="InitVenv Assets" icon="images" href="/assets/initvenv">
+    Browse the full InitVenv image and icon catalog.
+  </Card>
+  <Card title="Adding Assets" icon="code-pull-request" href="/contributing/adding-assets">
+    Contribute new assets to the repository.
+  </Card>
+</CardGroup>
+
+## How jsDelivr Powers the CDN
+
+jsDelivr provides a free, globally distributed CDN layer on top of any public GitHub repository. No configuration, no API keys, and no upload step are required — every file committed to `tutosrive/images-projects-srm-trg` is instantly reachable over HTTPS at a predictable URL. Requests are routed to the nearest edge node worldwide, so images load fast whether the visitor is in São Paulo, Singapore, or Stockholm.
+
+The base URL pattern is:
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<ref>/<path-to-file>
+```
+
+Where `<ref>` is either a branch name (e.g. `main`) or a full Git commit SHA, and `<path-to-file>` is the repository-relative path to the asset.
+
+## URL Formats
+
+Dev Forge assets can be referenced in two ways, each suited to a different scenario.
+
+### Latest (`@main`)
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/<path>
+```
+
+This URL always resolves to the most recent version of a file on the `main` branch. Use it during development or in contexts where you always want the current asset. jsDelivr caches `@main` responses for approximately 7 days, so updates may take a short time to propagate.
+
+### Pinned (`@<commit-sha>`)
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<commit-sha>/<path>
+```
+
+Substituting a full 40-character commit SHA locks the URL to an exact, immutable snapshot of the file. jsDelivr caches these responses indefinitely at the edge, delivering maximum performance and guaranteeing that the asset can never change unexpectedly. This is the recommended format for production READMEs, published documentation, and release notes.
+
+## Supported File Formats
+
+| Format | Extension | Typical Use |
+|--------|-----------|-------------|
+| Portable Network Graphic | `.png` | Screenshots, previews, UI walkthroughs |
+| WebP | `.webp` | Logos, thumbnails (smaller file size) |
+| Scalable Vector Graphic | `.svg` | Logos, icons (resolution-independent) |
+| Animated GIF | `.gif` | Demo recordings, usage examples |
+| Icon | `.ico` | Application icons, favicons |
+| JPEG | `.jpg` / `.jpeg` | Photographs, quote cards |
+
+## Projects Covered
+
+The repository organises assets by project under a clear folder hierarchy. The following open-source tools currently have dedicated asset directories:
+
+- **InitVenv** (`dev2forge/InitVenv/`) — Python virtual-environment manager; logos, icons, and UI screenshots
+- **BridgeX** (`dev2forge/bridgex/`) — Cross-platform bridge utility; logos and preview images
+- **PyMD** (`dev2forge/pymd/`) — Python Markdown renderer; screenshots and logos
+- **ChromoLog / Chrono Logger** (`modules/`) — Colorised Python logging libraries; logos and GIF demos
+- **SQLazo** (`modules/`) — Python SQL utility; logo and webpage preview
+- **pdf2wordx / pdf2docx** (`img-pdftoword/`, `pdf2docx/`) — PDF-to-Word converter; versioned screenshots
+- **NBAI** (`NBAI/`) — AI-powered notebook assistant; logo, UI GIFs, and weather card demos
+- **Dev Forge platform** (`dev2forge/`) — Umbrella brand assets and thumbnails
+- **SVG icons, flags & cursors** (`svg-icons-flags-cursor/`) — Reusable UI primitives
+- **Misc / others** (`others/`, `esrm/`, `sites/`) — Additional project assets
+
+## License
+
+All assets in this repository are released under the **MIT License** (Copyright © 2025 Tutos Rive). You are free to use, copy, modify, and distribute any asset in personal or commercial projects. Attribution is appreciated but not required.
+
+<Info>
+  The jsDelivr hit counter badge — `https://img.shields.io/jsdelivr/gh/hy/tutosrive/images-projects-srm-trg` — shows the total number of CDN requests the repository has served and is embedded in the project's own README.
+</Info>

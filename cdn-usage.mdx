@@ -1,0 +1,254 @@
+---
+title: "CDN URL Patterns, Versioning, and Best Practices"
+sidebarTitle: "CDN Usage"
+description: "Master jsDelivr URL construction for Dev Forge assets: branch-based URLs, pinned commit SHAs, cache behaviour, and when to use each strategy."
+---
+
+Every file in the `tutosrive/images-projects-srm-trg` repository is automatically served as a CDN asset through [jsDelivr](https://www.jsdelivr.com/). Understanding the two URL formats — branch-pinned and commit-pinned — is the key to using these assets reliably in development workflows, public READMEs, and long-lived documentation. This page covers URL construction, caching semantics, how to locate commit SHAs, and practical embedding examples across the most common file types and environments.
+
+## The Two URL Formats
+
+All Dev Forge CDN URLs share the same base structure. The only part that varies is the `<ref>` segment — the Git reference that determines which version of the file jsDelivr serves.
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<ref>/<path-to-file>
+```
+
+### Format 1 — Branch URL (`@main`)
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/<path-to-file>
+```
+
+This URL resolves to whatever version of the file currently exists on the `main` branch. It is convenient during active development because you always get the most recent asset without updating the URL. The trade-off is that jsDelivr caches `@main` responses for approximately **7 days**, so a newly committed file or an updated asset may not appear immediately at the CDN edge.
+
+**Example — Dev Forge logo (WebP):**
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/dev2forge-logo.webp
+```
+
+**Example — NBAI logo (PNG):**
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/NBAI/logo.png
+```
+
+**Example — ChromoLog logo (WebP):**
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromalog_logo.webp
+```
+
+---
+
+### Format 2 — Pinned Commit SHA (`@<commit-sha>`)
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<commit-sha>/<path-to-file>
+```
+
+Replacing `<ref>` with a full 40-character Git commit SHA creates an **immutable URL**. Because the SHA uniquely identifies a single point in the repository's history, the file at that URL can never change. jsDelivr recognises pinned-SHA URLs and caches them **indefinitely** at every edge node, resulting in the fastest possible load times and eliminating any risk of an unexpected asset change.
+
+**Example — InitVenv tag preview (PNG), pinned to commit `db610fff`:**
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@db610fff56de446492611132cc5dc85b3cade010/dev2forge/InitVenv/initvenv-tag-preview.png
+```
+
+**Example — InitVenv icon (ICO), pinned to commit `dd775fc2`:**
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@dd775fc24cf6c63171b85694bd0b7d567f055676/dev2forge/InitVenv/icon.ico
+```
+
+**Example — InitVenv explorer screenshot (PNG), pinned to commit `591ea68b`:**
+
+```
+https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@591ea68b0a5c28922df1cc9471fba52746db48e1/dev2forge/InitVenv/initvenv-explain-explorer1.png
+```
+
+---
+
+## Format Comparison
+
+| | `@main` (branch) | `@<commit-sha>` (pinned) |
+|---|---|---|
+| **Resolves to** | Latest file on `main` | Exact file at that commit |
+| **URL changes needed on update** | Never | Yes — new SHA per update |
+| **jsDelivr cache lifetime** | ~7 days | Indefinite |
+| **Stability** | May change if `main` is updated | Immutable — never changes |
+| **Performance** | Good | Best (fully edge-cached) |
+| **Recommended use** | Local development, staging, drafts | Production READMEs, release docs, published sites |
+
+<Tip>
+  Always use a **pinned commit SHA URL** in any publicly released artifact — a GitHub README, a published docs page, a blog post, or a release changelog. The indefinite edge caching gives users the fastest possible load time, and you are guaranteed the asset will never silently change.
+</Tip>
+
+---
+
+## How to Get a Commit SHA
+
+You need a commit SHA only when creating pinned URLs. There are two easy ways to find one.
+
+### From the GitHub UI
+
+1. Navigate to the file in the repository on [github.com/tutosrive/images-projects-srm-trg](https://github.com/tutosrive/images-projects-srm-trg).
+2. Click the **History** button (top-right of the file view) to see commits that touched the file.
+3. Click any commit entry to open the commit detail page.
+4. Copy the full SHA from the URL bar (e.g. `db610fff56de446492611132cc5dc85b3cade010`) or from the commit header on the page.
+
+### From the Command Line
+
+```bash
+# Show the last 10 commits with their full SHAs
+git log --oneline -10
+
+# Show the SHA of the commit that last modified a specific file
+git log -1 --format="%H" -- dev2forge/InitVenv/InitVenv-logo.svg
+```
+
+Paste the resulting 40-character SHA directly into the URL template, replacing `<commit-sha>`.
+
+---
+
+## Usage in Different Contexts
+
+The same CDN URL works in any environment that can render a remote image over HTTPS. The examples below use real asset paths from the repository.
+
+### Markdown README Badges
+
+Markdown is the most common context for Dev Forge CDN assets. Drop the URL into standard image syntax:
+
+```markdown
+<!-- InitVenv SVG logo — latest -->
+![InitVenv Logo](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg)
+
+<!-- ChromoLog logo — latest -->
+![ChromoLog Logo](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromalog_logo.webp)
+
+<!-- NBAI logo — pinned, immutable -->
+![NBAI Logo](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/NBAI/logo.png)
+
+<!-- Clickable logo linking to the project site -->
+[![InitVenv](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg)](https://dev2forge.software/initvenv/)
+```
+
+### HTML `<img>` Tags
+
+Use the CDN URL as the `src` attribute of any `<img>` element. Add `width`, `height`, and `alt` for accessibility and layout stability:
+
+```html
+<!-- SVG logo — scales to any size without pixelation -->
+<img
+  src="https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg"
+  alt="InitVenv Logo"
+  width="160"
+  height="160"
+/>
+
+<!-- Animated GIF demo (ChromoLog usage example) -->
+<img
+  src="https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromolog.gif"
+  alt="ChromoLog usage demonstration"
+  width="700"
+/>
+
+<!-- NBAI Gemini prompt test GIF -->
+<img
+  src="https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/NBAI/testing-gemini-prompt.gif"
+  alt="NBAI Gemini prompt test"
+  width="700"
+/>
+```
+
+### CSS `background-image`
+
+CDN URLs work directly in CSS for decorative backgrounds:
+
+```css
+/* Hero section with Dev Forge thumbnail as background */
+.hero {
+  background-image: url(
+    "https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/thumbanil-dev2forge.png"
+  );
+  background-size: cover;
+  background-position: center;
+}
+
+/* Card with ChromoLog logo as a centred background icon */
+.chromolog-card {
+  background-image: url(
+    "https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromalog_logo.webp"
+  );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+```
+
+### Python Docstrings and Sphinx Docs
+
+Sphinx's `.. image::` directive accepts remote HTTPS URLs, making CDN assets easy to embed in API reference documentation:
+
+```python
+def configure_logging(level: str = "INFO") -> None:
+    """
+    Configure the ChromoLog colorised logging handler.
+
+    .. image:: https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromalog_logo.webp
+       :alt: ChromoLog Logo
+       :width: 120px
+       :align: left
+
+    Parameters
+    ----------
+    level : str
+        Logging level string — one of ``DEBUG``, ``INFO``, ``WARNING``,
+        ``ERROR``, or ``CRITICAL``. Defaults to ``INFO``.
+    """
+    ...
+```
+
+For RST-only Sphinx projects, the same directive works in any `.rst` file:
+
+```rst
+.. image:: https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/NBAI/logo.png
+   :alt: NBAI Logo
+   :width: 200px
+```
+
+---
+
+## Cache Behaviour
+
+| Ref type | Cache lifetime | Purge possible? |
+|---|---|---|
+| `@main` (branch) | ~7 days | Yes, via jsDelivr purge tool |
+| `@<commit-sha>` (pinned) | Indefinite | Not required — content is immutable |
+
+jsDelivr automatically caches responses at its global network of edge nodes. For branch URLs, the cache is refreshed approximately every 7 days, or you can manually trigger a purge through the [jsDelivr purge tool](https://www.jsdelivr.com/tools/purge) if you need an update to appear sooner. Pinned-SHA URLs never need purging because the content they point to cannot change.
+
+---
+
+## Rate Limits and Cost
+
+jsDelivr is completely **free** for open-source projects. There is no API key, no registration, and no usage quota for files served from public GitHub repositories. The `tutosrive/images-projects-srm-trg` repository already tracks its own CDN hit count via the jsDelivr stats badge embedded in the project README:
+
+```markdown
+![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hy/tutosrive/images-projects-srm-trg)
+```
+
+---
+
+<Warning>
+  Only use CDN URLs that point to `tutosrive/images-projects-srm-trg`. Do not hotlink images from unrelated or unknown third-party GitHub repositories — you have no control over their content, and those files can be changed or deleted at any time without notice. All Dev Forge assets in this repository are versioned, catalogued, and maintained specifically for stable CDN delivery.
+</Warning>
+
+<Tip>
+  **Production checklist before publishing a README or docs page:**
+  1. Replace every `@main` URL with a pinned `@<commit-sha>` URL.
+  2. Verify each URL returns a `200 OK` by opening it in a browser.
+  3. Confirm `alt` text is set on every `<img>` tag for accessibility.
+  4. For SVGs, prefer the `.svg` format over `.webp` or `.png` — SVGs are resolution-independent and typically far smaller in file size.
+</Tip>

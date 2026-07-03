@@ -1,0 +1,217 @@
+---
+title: "Asset Naming Conventions for the Dev Forge CDN"
+sidebarTitle: "Naming Conventions"
+description: "Naming rules for files and directories in the Dev Forge CDN repo: format guidelines, versioning patterns, and folder structure best practices."
+---
+
+Every file name you commit to `tutosrive/images-projects-srm-trg` becomes a permanent segment of its jsDelivr CDN URL. Because these URLs are embedded in documentation, README files, and deployed applications, a poorly chosen name is extremely costly to change — updating it means creating a new URL and hunting down every reference. Consistent, descriptive naming also makes it possible for contributors to find the right file at a glance without downloading the whole repository. The conventions below are derived from the patterns already in use across the repository's existing folders.
+
+## File naming rules
+
+### General format
+
+- Use **lowercase letters and hyphens** as word separators in most cases.
+  - ✅ `initvenv-tag-preview.png`
+  - ✅ `chromolog-webpage.png`
+  - ❌ `InitVenv Tag Preview.png` (spaces not allowed)
+  - ❌ `chromolog webpage.png` (spaces become `%20` in URLs)
+- **Underscores** are acceptable for logo files in the `modules/` folder, where the existing convention uses them:
+  - ✅ `chromalog_logo.webp`, `sqlazo_logo.webp`, `chronolog_logo.webp`
+  - New contributions to other folders should still prefer hyphens.
+- Never use special characters such as `(`, `)`, `&`, `#`, `@`, or accented letters in file names — they must be percent-encoded in URLs and cause broken links.
+
+### Version suffixes
+
+When an asset is tied to a specific release of a project, append the version with a `-v` prefix:
+
+```
+<project>-v<major>.<minor>.<patch>.<ext>
+```
+
+Examples from `dev2forge/logos/`:
+
+```
+bridgex-v0.1.0.webp
+chromologger-v0.1.9.webp
+chromolog-v0.2.5.webp
+e-srm-v0.1.0.webp
+sqlazo-v0.2.0.webp
+pdf2wordx-v2.1.2.svg
+```
+
+### Numbered screenshots
+
+Sequential screenshots of a UI flow should use a numeric prefix followed by a short description of what the screen shows:
+
+```
+1-main-screen.png
+2-llm-config.png
+3-markdown-render.png
+```
+
+This pattern is used in `dev2forge/bridgex/`. For simpler series without descriptions, a bare number is also acceptable (as seen in `img-pdftoword/v2.1.2-IMG/`):
+
+```
+pdf2wordx-v2.1.2-1.png
+pdf2wordx-v2.1.2-2.png
+pdf2wordx-v2.1.2-3.png
+```
+
+### Preview images
+
+Preview or showcase images that appear in a documentation page or storefront listing should follow this prefix pattern:
+
+```
+preview-<N>-<description>.png
+```
+
+Examples from `dev2forge/pymd/bridge/` and `dev2forge/pymd/bridgex/`:
+
+```
+preview-1-main.png
+preview-2-openfile.png
+preview-3-minieditor.png
+preview-4-convert.png
+preview-5-languagechange.png
+```
+
+For evaluation or promotional previews that are not part of a numbered series, use a descriptive suffix:
+
+```
+preview-eval-dev2forge.png
+```
+
+### Logo files
+
+Logo files should include both the project name and version so multiple logo versions can coexist in the same folder:
+
+```
+<project>-logo.<ext>          # current / unversioned logo
+<project>-v<version>.<ext>    # versioned logo for a specific release
+```
+
+Examples:
+
+```
+dev2forge-logo.webp
+pdf2wordx-v2.1.2.svg
+bridgex-v0.1.0.webp
+```
+
+Prefer **WEBP** for raster logos (smaller file size) and **SVG** for vector logos.
+
+### Animated demo files
+
+Animated GIFs demonstrating a feature or usage example should use a descriptive name that clearly conveys what the animation shows:
+
+```
+testing-card-weather-V1.gif
+testing-user-modal-srm.gif
+testing-gemini-prompt.gif
+chromolog.gif
+404-yellow1.gif
+```
+
+<Note>
+  File names are permanent segments of CDN URLs. Once a URL is published and referenced in documentation or production apps, renaming the file creates a dead link everywhere that URL appears. Choose your file name carefully before pushing — treat it as a permanent public API.
+</Note>
+
+---
+
+## Directory structure rules
+
+### Group assets by project at the top level
+
+Each top-level directory corresponds to one project or product. Do not mix assets from different projects in the same folder.
+
+```
+images-projects-srm-trg/
+├── dev2forge/         ← Dev Forge platform
+├── NBAI/              ← NBAI application
+├── modules/           ← Python modules (ChromoLog, SQLazo, ChronoLogger)
+├── img-pdftoword/     ← pdf2wordx desktop app
+├── svg-icons-flags-cursor/  ← shared UI icons, flags, cursors
+├── esrm/              ← e-SRM application
+├── pdf2docx/          ← pdf2docx samples
+├── sites/             ← third-party site screenshots
+├── random_names.onderender.com/  ← random-names web app
+└── others/            ← miscellaneous / uncategorized assets
+```
+
+### Use versioned subdirectories for release-specific assets
+
+When a project ships multiple versions with different screenshots, create a subdirectory per version using the pattern `v<version>-<type>/`:
+
+```
+img-pdftoword/
+├── v1.0-Alpha/
+├── v2.0.0-IMG/
+├── v2.0.1-IMG/
+└── v2.1.2-IMG/
+```
+
+This lets old CDN URLs continue working (the files are never moved) while new release screenshots live in their own clean folder.
+
+### Use nested folders for sub-project variants
+
+When one tool has distinct variants or build configurations, nest them under a shared parent:
+
+```
+dev2forge/pymd/
+├── bridge/          ← PyMD Bridge variant
+├── bridgex/         ← PyMD BridgeX variant
+└── previews-beta/   ← shared beta-stage previews
+```
+
+Similarly, group themed assets together under a functional subdirectory:
+
+```
+NBAI/
+├── openweather/     ← OpenWeather condition icons (SVG)
+└── ships/
+    └── svg/         ← Ship SVG illustrations
+```
+
+---
+
+## Supported file formats
+
+| Format | Extension | Best for |
+| ------ | --------- | -------- |
+| PNG | `.png` | Screenshots, UI previews, images with transparency |
+| WEBP | `.webp` | Logos, thumbnails — smaller file size than PNG/JPEG |
+| SVG | `.svg` | Icons, logos — resolution-independent and scalable |
+| GIF | `.gif` | Animated demos, feature walkthroughs |
+| ICO | `.ico` | Windows application icons |
+| JPG / JPEG | `.jpg` / `.jpeg` | Photos and complex imagery without transparency |
+
+<Note>
+  Prefer **WEBP** over PNG for logos and static illustrations — it typically achieves 25–35 % smaller file sizes, which reduces CDN bandwidth and speeds up page loads. Use **SVG** wherever the image is a vector graphic, since SVGs scale to any resolution without quality loss. Reserve **GIF** for animated demos only; static images should never be GIFs.
+</Note>
+
+---
+
+## Real naming examples from the repository
+
+The table below shows actual file names drawn from the repository alongside the patterns they follow:
+
+| File | Folder | Pattern applied |
+| ---- | ------ | --------------- |
+| `dev2forge-logo.webp` | `dev2forge/` | `<project>-logo.<ext>` |
+| `thumbanil-dev2forge.png` | `dev2forge/` | descriptive thumbnail name |
+| `preview-eval-dev2forge.png` | `dev2forge/` | `preview-<description>.<ext>` |
+| `bridgex-v0.1.0.webp` | `dev2forge/logos/` | `<project>-v<version>.<ext>` |
+| `pdf2wordx-v2.1.2.svg` | `dev2forge/logos/` | `<project>-v<version>.<ext>` |
+| `icon.ico` | `dev2forge/InitVenv/` | short descriptive name |
+| `initvenv-tag-preview.png` | `dev2forge/InitVenv/` | `<project>-<description>.png` |
+| `initvenv-explain-explorer1.png` | `dev2forge/InitVenv/` | `<project>-<description><N>.png` |
+| `1-main-screen.png` | `dev2forge/bridgex/` | `<N>-<description>.png` |
+| `preview-1-main.png` | `dev2forge/pymd/bridge/` | `preview-<N>-<description>.png` |
+| `bridgex-logo-animated.webp` | `dev2forge/pymd/bridgex/` | `<project>-logo-animated.<ext>` |
+| `pdf2wordx-v2.1.2-1.png` | `img-pdftoword/v2.1.2-IMG/` | `<project>-v<version>-<N>.png` |
+| `testing-card-weather-V1.gif` | `NBAI/` | `<action>-<feature>-<version>.gif` |
+| `chromalog_logo.webp` | `modules/` | `<project>_logo.<ext>` (modules convention) |
+| `chromolog.gif` | `modules/` | `<project>.<ext>` (animated usage demo) |
+| `sqlazo-webpage.png` | `modules/` | `<project>-webpage.png` |
+| `01d.svg` | `NBAI/openweather/` | OpenWeather icon code convention |
+| `404-yellow1.gif` | `others/` | `<description><N>.gif` |

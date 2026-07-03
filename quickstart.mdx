@@ -1,47 +1,112 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Get Started with Dev Forge CDN in Under 60 Seconds"
+sidebarTitle: "Quickstart"
+description: "Learn how to reference any Dev Forge asset in your project using a jsDelivr CDN URL in three simple steps."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+This guide walks you through embedding a Dev Forge CDN asset — a logo, screenshot, icon, or GIF — into your own project. By the end you will have a working image URL that you can drop into a README badge, an HTML page, or a Python docstring. The entire process takes less than a minute and requires no account, no API key, and no tooling beyond a text editor.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+  <Step title="Browse the Asset Catalog">
+    Every asset stored in `tutosrive/images-projects-srm-trg` is documented in the catalog pages for each project. Open the relevant catalog page (for example, [InitVenv Assets](/assets/initvenv)) and locate the file you want to use. Each entry lists the repository-relative file path — that path is the only piece of information you need to construct a CDN URL.
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+    If you already know the path, you can skip straight to the next step. The repository is also publicly browsable on [GitHub](https://github.com/tutosrive/images-projects-srm-trg) if you want to explore folders directly.
 
-    ```bash
-    your-cli start
-    ```
+    **Example file path:** `dev2forge/InitVenv/InitVenv-logo.svg`
   </Step>
+
+  <Step title="Construct Your CDN URL">
+    jsDelivr serves every file from the repository at a predictable URL. Paste the file path you found in Step 1 into the template below.
+
+    **URL template:**
+
+    ```
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<ref>/<path-to-file>
+    ```
+
+    Replace `<ref>` with either `main` (always the latest version) or a full commit SHA (a permanent, immutable snapshot). Replace `<path-to-file>` with the repository-relative path from the catalog.
+
+    ---
+
+    **Latest URL** — always points to the current file on the `main` branch:
+
+    ```
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg
+    ```
+
+    **Pinned URL** — locked to a specific commit; never changes, cached forever by jsDelivr:
+
+    ```
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@db610fff56de446492611132cc5dc85b3cade010/dev2forge/InitVenv/initvenv-tag-preview.png
+    ```
+
+    <Tip>
+      For production READMEs, published documentation, and release assets, always use a **pinned commit SHA URL**. jsDelivr caches pinned URLs indefinitely at every edge node, meaning the image will load instantly and cannot be accidentally changed by a future commit to `main`. See [CDN Usage](/cdn-usage) for guidance on finding and copying commit SHAs.
+    </Tip>
+  </Step>
+
+  <Step title="Embed in Your Project">
+    Copy the URL from Step 2 and use it in any context that renders images. Below are ready-to-use snippets for the most common scenarios.
+
+    <CodeGroup>
+
+    ```markdown Markdown (README badge)
+    <!-- Latest logo — good for development -->
+    ![InitVenv Logo](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg)
+
+    <!-- Pinned preview screenshot — recommended for production -->
+    ![InitVenv Tag Preview](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@db610fff56de446492611132cc5dc85b3cade010/dev2forge/InitVenv/initvenv-tag-preview.png)
+    ```
+
+    ```html HTML
+    <!-- Latest SVG logo -->
+    <img
+      src="https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg"
+      alt="InitVenv Logo"
+      width="200"
+    />
+
+    <!-- Pinned PNG screenshot (immutable, maximum CDN performance) -->
+    <img
+      src="https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@db610fff56de446492611132cc5dc85b3cade010/dev2forge/InitVenv/initvenv-tag-preview.png"
+      alt="InitVenv tag preview"
+      width="600"
+    />
+    ```
+
+    ```python Python (docstring / Sphinx docs)
+    def create_virtualenv(name: str) -> None:
+        """
+        Create a new Python virtual environment.
+
+        .. image:: https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/InitVenv/InitVenv-logo.svg
+           :alt: InitVenv Logo
+           :width: 120px
+
+        Parameters
+        ----------
+        name : str
+            The name of the virtual environment directory to create.
+        """
+        ...
+    ```
+
+    </CodeGroup>
+
+    Once your file is saved, open it in a browser or Markdown preview to confirm the image renders correctly. If the image does not appear, double-check that the file path exactly matches the repository structure (paths are case-sensitive).
+  </Step>
+
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## What's Next?
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<Note>
+  All assets in this repository are released under the **MIT License** (Copyright © 2025 Tutos Rive). You may use them freely in personal, commercial, or open-source projects. Attribution is appreciated but not required.
+</Note>
+
+Now that you can reference any asset by URL, explore the rest of the documentation to get more out of the CDN:
+
+- **[CDN Usage](/cdn-usage)** — Deep dive into URL versioning, cache behaviour, rate limits, and advanced embedding patterns including CSS backgrounds.
+- **[InitVenv Assets](/assets/initvenv)** — Full catalog of logos, icons, screenshots, and GIFs for the InitVenv project.
+- **[Adding Assets](/contributing/adding-assets)** — Contribute new images to the repository and make them available on the CDN.

@@ -1,0 +1,170 @@
+---
+title: "Add New Assets to the Dev Forge CDN Repository"
+sidebarTitle: "Adding Assets"
+description: "Step-by-step guide to contributing images, logos, and icons to the Dev Forge CDN repository so they become instantly available via jsDelivr."
+---
+
+Contributing assets to the Dev Forge CDN repository makes your images, logos, and icons immediately accessible via jsDelivr — a free, fast, and globally distributed CDN — using a permanent, version-pinned URL. The repository `tutosrive/images-projects-srm-trg` acts as a static file store: every file you commit is served directly from GitHub through jsDelivr with no build step or deployment pipeline required. This guide walks you through forking the repository, placing your file in the correct folder, updating the folder's `README.md` index, and constructing a stable CDN URL once your commit lands.
+
+<Note>
+  Before you begin, make sure you have the following installed and configured:
+  - **Git** (any recent version) — [git-scm.com](https://git-scm.com)
+  - A **GitHub account** with permission to fork and push to [tutosrive/images-projects-srm-trg](https://github.com/tutosrive/images-projects-srm-trg)
+</Note>
+
+## Contribution steps
+
+<Steps>
+  <Step title="Fork and clone the repository">
+    Fork the repository on GitHub, then clone your fork locally:
+
+    ```bash
+    git clone https://github.com/tutosrive/images-projects-srm-trg.git
+    cd images-projects-srm-trg
+    ```
+
+    If you already have a local clone, make sure it is up to date before adding new files:
+
+    ```bash
+    git pull origin main
+    ```
+  </Step>
+
+  <Step title="Place your file in the correct directory">
+    Assets are organized into top-level project folders. Choose the folder that matches the project your asset belongs to and drop your file there. If no suitable folder exists, create a new one following the same flat structure.
+
+    ```
+    images-projects-srm-trg/
+    ├── dev2forge/               # Dev Forge platform assets
+    │   ├── logos/               # Versioned project logos (.webp, .svg, .png)
+    │   ├── InitVenv/            # InitVenv tool screenshots & icons
+    │   ├── bridgex/             # BridgeX numbered screen captures
+    │   └── pymd/
+    │       ├── bridge/          # PyMD Bridge variant previews
+    │       ├── bridgex/         # PyMD BridgeX variant previews
+    │       └── previews-beta/   # Beta-stage preview images
+    ├── NBAI/                    # NBAI app assets
+    │   ├── openweather/         # OpenWeather SVG condition icons
+    │   └── ships/svg/           # Ship SVG illustrations
+    ├── modules/                 # Python module logos & usage GIFs
+    │   │                        # (ChromoLog, SQLazo, ChronoLogger)
+    ├── img-pdftoword/           # pdf2wordx versioned screenshots
+    │   ├── v1.0-Alpha/
+    │   ├── v2.0.0-IMG/
+    │   ├── v2.0.1-IMG/
+    │   └── v2.1.2-IMG/
+    ├── svg-icons-flags-cursor/  # UI icons, flag SVGs, cursors
+    │   ├── cursors/
+    │   ├── flags-svg/
+    │   └── icon/
+    ├── esrm/                    # e-SRM assets
+    ├── pdf2docx/                # pdf2docx sample images
+    ├── sites/                   # Other site screenshots
+    │   └── ouo.io/
+    ├── random_names.onderender.com/  # Random names site assets
+    └── others/                  # Miscellaneous & ferreandina-nosql images
+        └── ferreandina-nosql/
+            ├── branches/
+            ├── categories/
+            ├── products/
+            ├── suppliers/
+            └── workers/
+    ```
+
+    <Tip>
+      Use descriptive, lowercase file names separated by hyphens (not spaces) so the resulting CDN URL is human-readable and easy to share. For example, prefer `initvenv-explain-explorer1.png` over `screenshot_final_v2 COPY.png`.
+    </Tip>
+  </Step>
+
+  <Step title="Update the README.md in the target folder">
+    Every folder contains a `README.md` that serves as a human-readable index of its assets. Add a row for your new file following the three-column table format used across the repository:
+
+    ```markdown
+    | file | link | preview |
+    | --   |  --  | --      |
+    | your-asset-name.png | [Link](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<COMMIT_SHA>/path/to/your-asset-name.png) | ![img](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<COMMIT_SHA>/path/to/your-asset-name.png) |
+    ```
+
+    **Columns explained:**
+
+    | Column | Purpose |
+    | ------ | ------- |
+    | `file` | The file name as it appears in the folder |
+    | `link` | A clickable hyperlink to the jsDelivr CDN URL |
+    | `preview` | An inline `![img](…)` tag so the table renders a thumbnail on GitHub |
+
+    You can use `@main` as the ref while preparing your PR; once your commit is merged you should update the ref to a pinned commit SHA (see step 5) so the link remains stable even if the file is later moved.
+
+    <Note>
+      Some folders in the repository (such as `dev2forge/README.md`) use slightly different column headers like `File Name`, `Link en GitHub`, and `Vista previa CDN`. Match the header style that already exists in whichever folder you are editing — the three-column structure is what matters for consistency.
+    </Note>
+  </Step>
+
+  <Step title="Commit and push your changes">
+    Stage both your new asset and the updated `README.md`, then push to your branch:
+
+    ```bash
+    git add .
+    git commit -m "feat: add <asset-name> to <project-folder>"
+    git push origin main
+    ```
+
+    Replace `<asset-name>` with the actual file name and `<project-folder>` with the target directory, for example:
+
+    ```bash
+    git commit -m "feat: add chromolog-v0.3.0.webp to dev2forge/logos"
+    ```
+
+    Open a Pull Request on GitHub targeting the `main` branch of `tutosrive/images-projects-srm-trg` if you are working from a fork.
+
+    <Warning>
+      Do not upload files that contain sensitive, private, or proprietary content — API keys, passwords, internal screenshots, personally identifiable information, or assets you do not own the rights to. Everything committed to this repository is publicly accessible via the CDN with no authentication required.
+    </Warning>
+  </Step>
+
+  <Step title="Get the commit SHA and construct your pinned CDN URL">
+    After your commit is merged into `main`, retrieve the full 40-character commit SHA from GitHub. You can find it in two ways:
+
+    **Option A — GitHub web UI:**
+    1. Open the repository on GitHub: `https://github.com/tutosrive/images-projects-srm-trg`
+    2. Click **Commits** (above the file list)
+    3. Locate your merge commit and click the **copy** icon next to the short SHA on the right
+
+    **Option B — Git CLI:**
+    ```bash
+    git log --oneline -5
+    # Example output:
+    # dd775fc feat: add icon.ico to dev2forge/InitVenv
+    # d7a4b45 feat: add quote.jpg to dev2forge/InitVenv
+    ```
+
+    Then retrieve the full SHA:
+    ```bash
+    git rev-parse dd775fc
+    # dd775fc24cf6c63171b85694bd0b7d567f055676
+    ```
+
+    **Construct the pinned URL** using the full SHA:
+
+    ```
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<FULL_SHA>/<folder>/<file>
+    ```
+
+    **Real examples from the repository:**
+
+    ```
+    # InitVenv icon — pinned to a specific commit
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@dd775fc24cf6c63171b85694bd0b7d567f055676/dev2forge/InitVenv/icon.ico
+
+    # InitVenv tag preview — pinned to another commit
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@db610fff56de446492611132cc5dc85b3cade010/dev2forge/InitVenv/initvenv-tag-preview.png
+
+    # Dev Forge logo — referenced via @main (floating ref)
+    https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/dev2forge-logo.webp
+    ```
+
+    <Tip>
+      Pin CDN URLs to a specific commit SHA whenever possible. A `@main` reference is convenient during development but will silently serve a different file if the asset is ever overwritten. Pinned SHAs are permanent and immune to future changes.
+    </Tip>
+  </Step>
+</Steps>

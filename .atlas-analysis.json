@@ -1,0 +1,81 @@
+{
+  "projectType": "general",
+  "projectName": "Dev Forge CDN Assets",
+  "projectDescription": "A GitHub-hosted CDN image and asset repository for Dev Forge projects, delivering static files (images, icons, SVGs, GIFs) via jsDelivr for use across multiple open-source tools.",
+  "theme": "luma",
+  "primaryColor": "#04449c",
+  "lightColor": null,
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "cdn-usage"
+            ]
+          },
+          {
+            "group": "Asset Catalog",
+            "pages": [
+              "assets/initvenv",
+              "assets/bridgex",
+              "assets/pymd",
+              "assets/pdf2wordx",
+              "assets/modules",
+              "assets/nbai",
+              "assets/others"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Projects",
+        "groups": [
+          {
+            "group": "Dev Forge Tools",
+            "pages": [
+              "projects/initvenv",
+              "projects/bridgex",
+              "projects/chromolog",
+              "projects/sqlazo",
+              "projects/pdf2wordx"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/adding-assets",
+              "contributing/naming-conventions"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Static asset hosting via jsDelivr CDN for zero-latency image delivery",
+    "Organized by project (InitVenv, BridgeX, ChromoLog, SQLazo, pdf2wordx, NBAI)",
+    "Supports PNG, WEBP, SVG, GIF, ICO formats",
+    "Versioned asset links using commit SHAs for immutable URLs",
+    "Includes weather icons, UI icons, flag SVGs, and cursor assets",
+    "MIT licensed — freely usable in any project"
+  ],
+  "publicApiSurface": [
+    "https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<commit-sha>/<path>",
+    "https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/<path>",
+    "dev2forge/InitVenv/ — InitVenv tool screenshots and logos",
+    "dev2forge/bridgex/ — BridgeX app screenshots",
+    "dev2forge/pymd/ — PyMD bridge screenshots",
+    "dev2forge/logos/ — Product logos (bridgex, chromolog, sqlazo, pdf2wordx, e-srm)",
+    "NBAI/ — NBAI app screenshots, weather icons, ship SVGs",
+    "modules/ — ChromoLog, SQLazo, ChronoLogger logos and GIFs",
+    "img-pdftoword/ — pdf2wordx versioned screenshots",
+    "svg-icons-flags-cursor/ — Flag SVGs, UI icons, cursor SVGs",
+    "others/ — Misc GIFs, screenshots, and ferreandina-nosql category images"
+  ]
+}
