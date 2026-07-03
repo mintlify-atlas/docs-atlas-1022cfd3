@@ -1,5 +1,5 @@
 ---
-title: "CDN URL Patterns, Versioning, and Best Practices"
+title: "CDN URL Patterns, Versioning, and Embedding Best Practices"
 sidebarTitle: "CDN Usage"
 description: "Master jsDelivr URL construction for Dev Forge assets: branch-based URLs, pinned commit SHAs, cache behaviour, and when to use each strategy."
 ---
@@ -10,13 +10,13 @@ Every file in the `tutosrive/images-projects-srm-trg` repository is automaticall
 
 All Dev Forge CDN URLs share the same base structure. The only part that varies is the `<ref>` segment — the Git reference that determines which version of the file jsDelivr serves.
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<ref>/<path-to-file>
 ```
 
 ### Format 1 — Branch URL (`@main`)
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/<path-to-file>
 ```
 
@@ -24,19 +24,19 @@ This URL resolves to whatever version of the file currently exists on the `main`
 
 **Example — Dev Forge logo (WebP):**
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/dev2forge/dev2forge-logo.webp
 ```
 
 **Example — NBAI logo (PNG):**
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/NBAI/logo.png
 ```
 
 **Example — ChromoLog logo (WebP):**
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromalog_logo.webp
 ```
 
@@ -44,7 +44,7 @@ https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chrom
 
 ### Format 2 — Pinned Commit SHA (`@<commit-sha>`)
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<commit-sha>/<path-to-file>
 ```
 
@@ -52,19 +52,19 @@ Replacing `<ref>` with a full 40-character Git commit SHA creates an **immutable
 
 **Example — InitVenv tag preview (PNG), pinned to commit `db610fff`:**
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@db610fff56de446492611132cc5dc85b3cade010/dev2forge/InitVenv/initvenv-tag-preview.png
 ```
 
 **Example — InitVenv icon (ICO), pinned to commit `dd775fc2`:**
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@dd775fc24cf6c63171b85694bd0b7d567f055676/dev2forge/InitVenv/icon.ico
 ```
 
 **Example — InitVenv explorer screenshot (PNG), pinned to commit `591ea68b`:**
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@591ea68b0a5c28922df1cc9471fba52746db48e1/dev2forge/InitVenv/initvenv-explain-explorer1.png
 ```
 
@@ -127,7 +127,7 @@ Markdown is the most common context for Dev Forge CDN assets. Drop the URL into 
 <!-- ChromoLog logo — latest -->
 ![ChromoLog Logo](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/modules/chromalog_logo.webp)
 
-<!-- NBAI logo — pinned, immutable -->
+<!-- NBAI logo — latest -->
 ![NBAI Logo](https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/NBAI/logo.png)
 
 <!-- Clickable logo linking to the project site -->

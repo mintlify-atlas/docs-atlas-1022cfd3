@@ -1,7 +1,7 @@
 ---
 title: "Dev Forge Asset CDN: Host Images for Open-Source Projects"
 sidebarTitle: "Introduction"
-description: "Dev Forge is a GitHub-hosted CDN asset repository delivering logos, screenshots, icons, and GIFs for open-source tools via jsDelivr with versioned, immutable URLs."
+description: "Dev Forge is a GitHub-hosted static asset repository delivering logos, screenshots, icons, and GIFs for open-source tools globally via jsDelivr CDN."
 ---
 
 Dev Forge CDN is a dedicated, GitHub-hosted static asset repository — [`tutosrive/images-projects-srm-trg`](https://github.com/tutosrive/images-projects-srm-trg) — that stores every logo, screenshot, icon, SVG, and GIF used across the Dev Forge family of open-source developer tools. Instead of scattering images across individual project repositories or paying for external hosting, all visual assets live in one place and are delivered globally through [jsDelivr](https://www.jsdelivr.com/), a free, production-grade CDN that serves files directly from any public GitHub repository. The result is a single source of truth for assets, permanent URLs you can embed in READMEs and docs today, and zero infrastructure to maintain.
@@ -27,7 +27,7 @@ jsDelivr provides a free, globally distributed CDN layer on top of any public Gi
 
 The base URL pattern is:
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<ref>/<path-to-file>
 ```
 
@@ -39,7 +39,7 @@ Dev Forge assets can be referenced in two ways, each suited to a different scena
 
 ### Latest (`@main`)
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@main/<path>
 ```
 
@@ -47,7 +47,7 @@ This URL always resolves to the most recent version of a file on the `main` bran
 
 ### Pinned (`@<commit-sha>`)
 
-```
+```text
 https://cdn.jsdelivr.net/gh/tutosrive/images-projects-srm-trg@<commit-sha>/<path>
 ```
 

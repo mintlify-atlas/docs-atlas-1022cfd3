@@ -1,22 +1,22 @@
 ---
-title: "Add New Assets to the Dev Forge CDN Repository"
+title: "How to Add New Assets to the Dev Forge CDN Repository"
 sidebarTitle: "Adding Assets"
 description: "Step-by-step guide to contributing images, logos, and icons to the Dev Forge CDN repository so they become instantly available via jsDelivr."
 ---
 
-Contributing assets to the Dev Forge CDN repository makes your images, logos, and icons immediately accessible via jsDelivr — a free, fast, and globally distributed CDN — using a permanent, version-pinned URL. The repository `tutosrive/images-projects-srm-trg` acts as a static file store: every file you commit is served directly from GitHub through jsDelivr with no build step or deployment pipeline required. This guide walks you through forking the repository, placing your file in the correct folder, updating the folder's `README.md` index, and constructing a stable CDN URL once your commit lands.
+Contributing assets to the Dev Forge CDN repository makes your images, logos, and icons immediately accessible via jsDelivr — a free, fast, and globally distributed CDN — using a permanent, version-pinned URL. The repository `tutosrive/images-projects-srm-trg` acts as a static file store: every file you commit is served directly from GitHub through jsDelivr with no build step or deployment pipeline required. This guide walks you through cloning the repository, placing your file in the correct folder, updating the folder's `README.md` index, and constructing a stable CDN URL once your commit lands.
 
 <Note>
   Before you begin, make sure you have the following installed and configured:
   - **Git** (any recent version) — [git-scm.com](https://git-scm.com)
-  - A **GitHub account** with permission to fork and push to [tutosrive/images-projects-srm-trg](https://github.com/tutosrive/images-projects-srm-trg)
+  - A **GitHub account** with push access to [tutosrive/images-projects-srm-trg](https://github.com/tutosrive/images-projects-srm-trg)
 </Note>
 
 ## Contribution steps
 
 <Steps>
-  <Step title="Fork and clone the repository">
-    Fork the repository on GitHub, then clone your fork locally:
+  <Step title="Clone the repository">
+    Clone the repository locally:
 
     ```bash
     git clone https://github.com/tutosrive/images-projects-srm-trg.git
@@ -93,7 +93,7 @@ Contributing assets to the Dev Forge CDN repository makes your images, logos, an
     | `link` | A clickable hyperlink to the jsDelivr CDN URL |
     | `preview` | An inline `![img](…)` tag so the table renders a thumbnail on GitHub |
 
-    You can use `@main` as the ref while preparing your PR; once your commit is merged you should update the ref to a pinned commit SHA (see step 5) so the link remains stable even if the file is later moved.
+    You can use `@main` as the ref while preparing your commit; once your commit is pushed you should update the ref to a pinned commit SHA (see step 5) so the link remains stable even if the file is later moved.
 
     <Note>
       Some folders in the repository (such as `dev2forge/README.md`) use slightly different column headers like `File Name`, `Link en GitHub`, and `Vista previa CDN`. Match the header style that already exists in whichever folder you are editing — the three-column structure is what matters for consistency.
@@ -115,20 +115,18 @@ Contributing assets to the Dev Forge CDN repository makes your images, logos, an
     git commit -m "feat: add chromolog-v0.3.0.webp to dev2forge/logos"
     ```
 
-    Open a Pull Request on GitHub targeting the `main` branch of `tutosrive/images-projects-srm-trg` if you are working from a fork.
-
     <Warning>
       Do not upload files that contain sensitive, private, or proprietary content — API keys, passwords, internal screenshots, personally identifiable information, or assets you do not own the rights to. Everything committed to this repository is publicly accessible via the CDN with no authentication required.
     </Warning>
   </Step>
 
   <Step title="Get the commit SHA and construct your pinned CDN URL">
-    After your commit is merged into `main`, retrieve the full 40-character commit SHA from GitHub. You can find it in two ways:
+    After your commit lands on `main`, retrieve the full 40-character commit SHA from GitHub. You can find it in two ways:
 
     **Option A — GitHub web UI:**
     1. Open the repository on GitHub: `https://github.com/tutosrive/images-projects-srm-trg`
     2. Click **Commits** (above the file list)
-    3. Locate your merge commit and click the **copy** icon next to the short SHA on the right
+    3. Locate your commit and click the **copy** icon next to the short SHA on the right
 
     **Option B — Git CLI:**
     ```bash
